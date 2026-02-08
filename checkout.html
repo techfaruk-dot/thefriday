@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout - The Friday Craft</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #fafafa;
+  --text: #1a1a1a;
+  --card: #ffffff;
+  --border: #e0e0e0;
+  --primary: #d84315;
+  --primary-dark: #bf360c;
+  --secondary: #666666;
+  --header-bg: rgba(250, 250, 250, 0.98);
+}
+
+body.dark {
+  --bg: #121212;
+  --text: #e8e8e8;
+  --card: #1e1e1e;
+  --border: #2a2a2a;
+  --secondary: #999999;
+  --header-bg: rgba(18, 18, 18, 0.98);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background 0.3s, color 0.3s;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  padding: 0.75rem 5%;
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
+  transition: all 0.3s;
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--primary);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.cart-icon-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.cart-icon-wrapper i {
+  font-size: 1.125rem;
+  color: var(--text);
+  transition: color 0.3s;
+}
+
+.cart-icon-wrapper:hover i {
+  color: var(--primary);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: var(--primary);
+  color: white;
+  font-size: 0.625rem;
+  font-weight: 600;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.125rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.theme-toggle:hover {
+  background: var(--border);
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+/* MAIN CONTENT */
+main {
+  flex: 1;
+  padding: 2.5rem 5% 3rem;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.25rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  color: var(--secondary);
+  font-size: 0.9375rem;
+  margin-bottom: 2.5rem;
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* FORM SECTIONS */
+.form-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-title i {
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.8125rem;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.6875rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.3s;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(216, 67, 21, 0.1);
+}
+
+.form-textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+/* ORDER SUMMARY */
+.order-summary {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.75rem;
+  position: sticky;
+  top: 5rem;
+}
+
+.summary-title {
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+}
+
+.summary-items {
+  max-height: 280px;
+  overflow-y: auto;
+  margin-bottom: 1.25rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.875rem;
+  font-size: 0.8125rem;
+}
+
+.summary-item-name {
+  flex: 1;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.875rem;
+  font-size: 0.875rem;
+  padding-bottom: 0.875rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.summary-row:last-of-type {
+  border-bottom: 2px solid var(--border);
+}
+
+.summary-row.total {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--primary);
+  padding-top: 0.875rem;
+  margin-top: 0;
+  border-top: none;
+  border-bottom: none;
+}
+
+.whatsapp-order-btn {
+  width: 100%;
+  padding: 0.875rem;
+  background: #25D366;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.whatsapp-order-btn:hover {
+  background: #1da851;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+}
+
+.secure-note {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* FOOTER */
+footer {
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  padding: 1.75rem 5%;
+  margin-top: auto;
+}
+
+.footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--secondary);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .order-summary {
+    position: static;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: var(--card);
+    flex-direction: column;
+    padding: 5rem 2rem;
+    gap: 2rem;
+    transition: right 0.3s;
+    z-index: 999;
+    border-left: 1px solid var(--border);
+  }
+  
+  .nav-links.active {
+    right: 0;
+  }
+  
+  .page-title {
+    font-size: 1.875rem;
+  }
+  
+  .form-section {
+    padding: 1.5rem;
+  }
+  
+  .order-summary {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.625rem;
+  }
+  
+  main {
+    padding: 2rem 5%;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-container">
+    <a href="index.html" class="logo">The Friday Craft</a>
+    
+    <nav>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="custom-order.html">Custom Order</a>
+        <a href="cart.html">Cart</a>
+        
+        <div class="cart-icon-wrapper" onclick="window.location.href='cart.html'">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </div>
+        
+        <button class="theme-toggle" onclick="toggleTheme()">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main>
+  <div class="container">
+    <h1 class="page-title">Checkout</h1>
+    <p class="page-subtitle">Complete your order via WhatsApp</p>
+    
+    <div class="checkout-layout">
+      <div>
+        <!-- CONTACT INFORMATION -->
+        <form id="checkoutForm">
+          <div class="form-section">
+            <h3 class="section-title">
+              <i class="fas fa-user"></i>
+              Contact Information
+            </h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input type="text" class="form-input" id="fullName" required placeholder="Enter your full name">
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Phone Number *</label>
+                <input type="tel" class="form-input" id="phone" required placeholder="Enter your phone number">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Email Address *</label>
+              <input type="email" class="form-input" id="email" required placeholder="Enter your email address">
+            </div>
+          </div>
+          
+          <!-- SHIPPING ADDRESS -->
+          <div class="form-section">
+            <h3 class="section-title">
+              <i class="fas fa-map-marker-alt"></i>
+              Shipping Address
+            </h3>
+            
+            <div class="form-group">
+              <label class="form-label">Address *</label>
+              <textarea class="form-textarea" id="address" required placeholder="House/Flat no, Building, Street, Area"></textarea>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">City *</label>
+                <input type="text" class="form-input" id="city" required placeholder="Enter city">
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">State *</label>
+                <input type="text" class="form-input" id="state" required placeholder="Enter state">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Pincode *</label>
+              <input type="text" class="form-input" id="pincode" required placeholder="Enter pincode" pattern="[0-9]{6}">
+            </div>
+          </div>
+        </form>
+      </div>
+      
+      <!-- ORDER SUMMARY -->
+      <div class="order-summary">
+        <h2 class="summary-title">Order Summary</h2>
+        
+        <div class="summary-items" id="summaryItems">
+          <!-- Items will be inserted here -->
+        </div>
+        
+        <div class="summary-row">
+          <span>Subtotal:</span>
+          <span id="subtotal">₹0</span>
+        </div>
+        
+        <div class="summary-row">
+          <span>Shipping:</span>
+          <span id="shipping">₹50</span>
+        </div>
+        
+        <div class="summary-row total">
+          <span>Total:</span>
+          <span id="total">₹0</span>
+        </div>
+        
+        <button type="button" class="whatsapp-order-btn" onclick="placeWhatsAppOrder()">
+          <i class="fab fa-whatsapp"></i>
+          Place Order via WhatsApp
+        </button>
+        
+        <div class="secure-note">
+          <i class="fas fa-shield-alt"></i>
+          Secure WhatsApp Checkout
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-content">
+    <p>&copy; 2026 The Friday Craft. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// Theme Toggle
+function toggleTheme() {
+  document.body.classList.toggle('dark');
+  const icon = document.querySelector('.theme-toggle i');
+  
+  if (document.body.classList.contains('dark')) {
+    icon.className = 'fas fa-sun';
+    localStorage.setItem('theme', 'dark');
+  } else {
+    icon.className = 'fas fa-moon';
+    localStorage.setItem('theme', 'light');
+  }
+}
+
+// Load saved theme
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+  document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+}
+
+// Mobile Menu Toggle
+function toggleMobileMenu() {
+  document.querySelector('.nav-links').classList.toggle('active');
+}
+
+// Update cart badge
+function updateCartBadge() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  document.getElementById('cartBadge').textContent = totalItems;
+  
+  if (totalItems === 0) {
+    document.getElementById('cartBadge').style.display = 'none';
+  } else {
+    document.getElementById('cartBadge').style.display = 'flex';
+  }
+}
+
+// Display order summary
+function displayOrderSummary() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const summaryItems = document.getElementById('summaryItems');
+  
+  if (cart.length === 0) {
+    window.location.href = 'cart.html';
+    return;
+  }
+  
+  let html = '';
+  let subtotal = 0;
+  
+  cart.forEach(item => {
+    const itemTotal = item.price * item.quantity;
+    subtotal += itemTotal;
+    
+    html += `
+      <div class="summary-item">
+        <div class="summary-item-name">
+          <strong>${item.name}</strong><br>
+          <span style="font-size: 0.75rem; color: var(--secondary);">
+            ${item.size} × ${item.quantity}
+          </span>
+        </div>
+        <div>₹${itemTotal}</div>
+      </div>
+    `;
+  });
+  
+  summaryItems.innerHTML = html;
+  
+  const shipping = 50;
+  const total = subtotal + shipping;
+  
+  document.getElementById('subtotal').textContent = `₹${subtotal}`;
+  document.getElementById('shipping').textContent = `₹${shipping}`;
+  document.getElementById('total').textContent = `₹${total}`;
+}
+
+// Place order via WhatsApp
+function placeWhatsAppOrder() {
+  const form = document.getElementById('checkoutForm');
+  
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+  
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  
+  if (cart.length === 0) {
+    alert('Your cart is empty!');
+    window.location.href = 'cart.html';
+    return;
+  }
+  
+  // Get form data
+  const fullName = document.getElementById('fullName').value;
+  const phone = document.getElementById('phone').value;
+  const email = document.getElementById('email').value;
+  const address = document.getElementById('address').value;
+  const city = document.getElementById('city').value;
+  const state = document.getElementById('state').value;
+  const pincode = document.getElementById('pincode').value;
+  
+  // Calculate totals
+  let subtotal = 0;
+  cart.forEach(item => {
+    subtotal += item.price * item.quantity;
+  });
+  const shipping = 50;
+  const total = subtotal + shipping;
+  
+  // Create WhatsApp message
+  const whatsappNumber = "917092128266"; // Your WhatsApp number
+  let message = "*New Order - The Friday Craft*\n\n";
+  message += "━━━━━━━━━━━━━━━━━━\n";
+  message += "*ORDER DETAILS*\n";
+  message += "━━━━━━━━━━━━━━━━━━\n\n";
+  
+  cart.forEach((item, index) => {
+    const itemTotal = item.price * item.quantity;
+    message += `${index + 1}. *${item.name}*\n`;
+    message += `   Size: ${item.size}\n`;
+    message += `   Qty: ${item.quantity} × ₹${item.price} = ₹${itemTotal}\n\n`;
+  });
+  
+  message += "━━━━━━━━━━━━━━━━━━\n";
+  message += `Subtotal: ₹${subtotal}\n`;
+  message += `Shipping: ₹${shipping}\n`;
+  message += `*Total: ₹${total}*\n`;
+  message += "━━━━━━━━━━━━━━━━━━\n\n";
+  
+  message += "*CUSTOMER INFO*\n";
+  message += "━━━━━━━━━━━━━━━━━━\n";
+  message += `Name: ${fullName}\n`;
+  message += `Phone: ${phone}\n`;
+  message += `Email: ${email}\n\n`;
+  
+  message += "*DELIVERY ADDRESS*\n";
+  message += "━━━━━━━━━━━━━━━━━━\n";
+  message += `${address}\n`;
+  message += `${city}, ${state} - ${pincode}\n\n`;
+  
+  message += "━━━━━━━━━━━━━━━━━━\n";
+  message += `Order Date: ${new Date().toLocaleString()}\n`;
+  message += "━━━━━━━━━━━━━━━━━━\n\n";
+  message += "Thank you for choosing The Friday Craft!";
+  
+  // Encode message for URL
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+  
+  // Open WhatsApp
+  window.open(whatsappURL, '_blank');
+  
+  // Clear cart after delay
+  setTimeout(() => {
+    if (confirm('Order sent to WhatsApp! Clear your cart?')) {
+      localStorage.removeItem('cart');
+      window.location.href = 'index.html';
+    }
+  }, 1000);
+}
+
+// Initialize
+updateCartBadge();
+displayOrderSummary();
+</script>
+
+</body>
+</html>
